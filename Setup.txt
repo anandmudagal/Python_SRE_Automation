@@ -1,0 +1,23 @@
+## Setup
+```bash
+pip install -r requirements.txt
+```
+
+## Usage
+```bash
+python main.py
+```
+
+## Dashboard
+```bash
+python dashboard.py
+```
+
+## AWS Configuration
+Ensure AWS credentials are set in your environment or `~/.aws/credentials`.
+
+## Extend & Schedule
+- Use `cron`, `systemd`, or Jenkins for scheduled automation.
+- Deploy to AWS Lambda for serverless execution.
+
+"""
