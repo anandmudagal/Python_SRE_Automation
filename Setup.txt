@@ -16,6 +16,93 @@ python dashboard.py
 ## AWS Configuration
 Ensure AWS credentials are set in your environment or `~/.aws/credentials`.
 
+# AWS EC2 Ubuntu Setup Checklist for SRE Support Automation
+
+This guide outlines the steps to set up an AWS EC2 Ubuntu instance for running the SRE Support Automation Toolkit.
+
+---
+
+## ✅ 1. Launch EC2 Instance
+- Choose **Ubuntu 20.04** or **22.04 LTS** AMI.
+- Assign an IAM Role to the instance with the following permissions:
+  - `CloudWatchReadOnlyAccess`
+  - `AmazonS3ReadOnlyAccess` (or full access if you need to write/download)
+- Open ports 22 (SSH) and 5000 (Flask dashboard) in the security group.
+
+---
+
+## ✅ 2. Install System Packages
+SSH into your EC2 instance:
+
+```bash
+sudo apt update && sudo apt install -y python3-pip python3-venv git
+```
+
+---
+
+## ✅ 3. Clone the GitHub Repository
+
+```bash
+git clone https://github.com/your-username/sre-support-automation.git
+cd sre-support-automation
+```
+
+---
+
+## ✅ 4. Create & Activate Python Virtual Environment (Optional but Recommended)
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+---
+
+## ✅ 5. Install Python Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## ✅ 6. Configure AWS CLI (If No IAM Role Is Attached)
+
+```bash
+aws configure
+```
+Provide your Access Key, Secret, Region, and Output Format.
+
+---
+
+## ✅ 7. Run the Scripts
+
+```bash
+python3 main.py         # Run checks and restart scripts
+python3 dashboard.py    # Launch Flask dashboard at http://<your-ec2-ip>:5000/health
+```
+
+---
+
+## 🔒 Permissions to Verify
+- **Slack Alerts**: Update `alerts.py` with your Slack webhook URL
+- **Email Alerts**: Ensure SMTP server allows connections from your EC2 instance
+- **System Services**: If using `systemctl`, ensure user has sudo privileges
+
+---
+
+## 🧪 Optional Enhancements
+- Set up **cron jobs** or **systemd timers** to automate script runs
+- Secure Flask dashboard with Basic Auth or SSL via Nginx
+- Install CloudWatch/Datadog Agent for advanced monitoring
+
+---
+
+## ✅ Done!
+You are now ready to monitor and automate your application support tasks from your EC2 instance.
+
+
+
 ## Extend & Schedule
 - Use `cron`, `systemd`, or Jenkins for scheduled automation.
 - Deploy to AWS Lambda for serverless execution.
