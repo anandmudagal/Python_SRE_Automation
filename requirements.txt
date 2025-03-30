@@ -1,0 +1,6 @@
+# requirements.txt
+requests
+boto3
+psutil
+flask
+slack_sdk
